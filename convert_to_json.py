@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-
 import csv
 import json
 import argparse
@@ -26,12 +25,14 @@ def convert_to_json(filename):
 
     return data
 
-def write_to_json(filename, data):
+def write_to_newline_delimited_json(filename, data):
     with open(filename, 'w') as f:
-        json.dump(data, f)
+        for item in data:
+            f.write(json.dumps(item))
+            f.write('\n')
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(description='Convert a text file into a JSON file.')
+    parser = argparse.ArgumentParser(description='Convert a text file into a newline-delimited JSON file.')
     parser.add_argument('input_file', help='The input text file to be converted.')
     return parser.parse_args()
 
@@ -39,5 +40,4 @@ if __name__ == "__main__":
     args = parse_arguments()
     data = convert_to_json(args.input_file)
     output_file = args.input_file + ".json"
-    write_to_json(output_file, data)
-
+    write_to_newline_delimited_json(output_file, data)
